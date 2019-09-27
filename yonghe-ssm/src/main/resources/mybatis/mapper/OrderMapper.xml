@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 订单表的映射文件	namespace值为对应接口的全路径 -->
+<mapper namespace="com.tedu.dao.OrderMapper">
+	<!-- 1.查询所有订单信息，id值为对应接口中方法的名字
+		resultType指定将查询的结果封装到哪个pojo对象中
+		列名				Order
+		id					setId	
+		door_id			setDoor_id
+		order_no		setOrder_no
+		pnum			setPnum
+	 -->
+	<select id="findAll" resultType="com.tedu.pojo.Order">
+		select id, door_id doorId, order_no orderNo, 
+		order_type orderType, pnum, cashier,  
+		order_time orderTime, pay_time payTime, 
+		pay_type payType, price
+		from tb_order
+	</select>
+	
+	<!-- 2.新增订单信息
+		#{}占位符中的变量名要和Order类中的属性名保持一致
+	 -->
+	<update id="addOrder">
+		insert into tb_order values
+		( null, #{doorId}, #{orderNo}, #{orderType},
+		#{pnum}, #{cashier}, #{orderTime},
+		#{payTime}, #{payType}, #{price} )
+	</update>
+	
+	<!-- 3.根据id删除订单信息 -->
+	<update id="deleteById">
+		delete from tb_order where id=#{id}
+	</update>
+	
+	<resultMap type="com.tedu.pojo.Order" id="OrderRM">
+		<!-- 将表中的列名(左边) 和对象中的属性名(右边)对应起来 -->
+		<id column="id" property="id"/>
+		<result column="door_id"  property="doorId"/>
+		<result column="order_no"  property="orderNo"/>
+		<result column="order_type"  property="orderType"/>
+		<result column="pnum"  property="pnum"/>
+		<result column="cashier"  property="cashier"/>
+		<result column="order_time"  property="orderTime"/>
+		<result column="pay_time"  property="payTime"/>
+		<result column="pay_type"  property="payType"/>
+		<result column="price"  property="price"/>
+	</resultMap>
+	<!-- 4.根据id查询订单信息
+		resultMap: 为了解决 "当表中的列名和对象中的属性名不一致
+			导致数据封装不了" 的问题。
+	 -->
+	<select id="findById"  resultMap="OrderRM">
+		select * from tb_order where id=#{id}
+	</select>
+	
+	<!-- 4.根据id修改门店信息 -->
+	<update id="updateById">
+		update tb_order set 
+		door_id=#{doorId}, order_no=#{orderNo}, 
+		order_type=#{orderType}, pnum=#{pnum}, 
+		cashier=#{cashier}, order_time=#{orderTime}, 
+		pay_time=#{payTime}, pay_type=#{payType}, 
+		price=#{price}
+		where id=#{id}
+	</update>
+	
+	
+	
+	
+
+</mapper>
