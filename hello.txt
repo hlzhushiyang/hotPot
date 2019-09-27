@@ -1,6 +1,0 @@
-<<<<<<< HEAD
-hahahahhahahh
-testzzzzzzzzzzzz
-=======
-hello git!
->>>>>>> 4289ad20aeba353fcb838df9ec1c9e4b2c321e29
